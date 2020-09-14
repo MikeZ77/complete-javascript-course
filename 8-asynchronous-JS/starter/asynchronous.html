@@ -9,7 +9,149 @@
 <body>
     <h1>Asynchronous JavaScript</h1>
     <script>
+        /*
+        const second = () => {
+            setTimeout(() => {
+                console.log('Async Hey there');
+            }, 2000);
+        };
+
+        const first = () => {
+            console.log('Hey there');
+            second();
+            console.log('The end');
+        };
+
+        first();
         
+        function getRecipe() {
+            setTimeout(() => {
+                const recipeID = [523, 883, 432, 974]
+                console.log(recipeID);
+
+                setTimeout((id) => {
+                    const recipe = {title: 'Fresh tomato pasta', publisher: 'Jonas'};
+                    console.log(`${id} ${recipe.title}`);
+
+                    setTimeout((publisher) => {
+                        const recipe = {title: 'Italian Pizza', publisher: publisher};
+                        console.log(recipe);
+                    }, 1500, recipe.publisher);
+
+                }, 1000, recipeID[2]);
+
+            }, 1500);
+            console.log('pie');
+        }
+
+        getRecipe();
+
+
+        //Chaining Promises
+        const getIDs = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve([523, 883, 432, 974]);
+            }, 1500);
+        });
+
+        const getRecipe = (recID) =>{
+            return new Promise((resolve, reject) => {
+                setTimeout((recID) => {
+                    const recipe = {title: 'Fresh tomato pasta', publisher: 'Jonas'};
+                    resolve(`${recID} ${recipe.title}`);
+                }, 1500, recID);
+            });
+        };
+
+        const getRelated = (publisher) => {
+            return new Promise((resolve, reject) => {
+                setTimeout((publisher) => {
+                        const recipe = {title: 'Italian Pizza', publisher: 'Jonas'};
+                        resolve(recipe);
+                }, 1500, publisher);
+            });
+        }
+
+        getIDs
+        .then((IDs) => {
+            console.log(IDs);
+            return getRecipe(IDs[2])
+        })
+        .then(recipe => {
+            console.log(recipe);
+            return getRelated(recipe.publisher);
+        })
+        .then(recipe => {
+            console.log(recipe);
+        })
+        .catch(error => {
+            console.log('Error!');
+        });
+        
+
+        //Use async await to consume promises instead of chaining
+
+        const getIDs = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve([523, 883, 432, 974]);
+            }, 1500);
+        });
+
+        const getRecipe = (recID) =>{
+            return new Promise((resolve, reject) => {
+                setTimeout((recID) => {
+                    const recipe = {title: 'Fresh tomato pasta', publisher: 'Jonas'};
+                    resolve(`${recID} ${recipe.title}`);
+                }, 1500, recID);
+            });
+        };
+
+        const getRelated = (publisher) => {
+            return new Promise((resolve, reject) => {
+                setTimeout((publisher) => {
+                        const recipe = {title: 'Italian Pizza', publisher: publisher};
+                        resolve(recipe);
+                }, 1500, publisher);
+            });
+        }
+
+        async function getRecipesAW() {
+            const IDs = await getIDs;
+            console.log(IDs);
+            const recipe = await getRecipe(IDs[2]);
+            console.log(recipe);
+            const related = await getRelated('Jonas');
+            console.log(related.publisher);
+
+            return recipe;
+        }
+
+        getRecipesAW().then((result) => {console.log(result)});
+        
+      
+        // Fetch returns a promise
+        fetch('https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/44418/')
+        .then(result => {
+            console.log(result);
+            return result.json();
+        })
+        .then(data => {
+            console.log(data);
+            const today = data.consolidated_weather[0].weather_state_name;
+            console.log(today);
+        })
+        .catch(error => console.log(error));
+        */
+        var weather = async function() {
+            const result = await fetch('https://cors-anywhere.herokuapp.com/https://www.metaweather.com/api/location/44418/');
+            const data = await result.json();
+            console.log(data);
+            const today = data.consolidated_weather[0].weather_state_name;
+            console.log(today);
+        }
+
+        weather();
+
     </script>
 </body>
 </html>
